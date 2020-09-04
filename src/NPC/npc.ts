@@ -69,4 +69,12 @@ export class NPC extends Entity {
       })
     )
   }
+  playAnimation(animationName: string, noLoop?: boolean) {
+    let animation = this.getComponent(Animator).getClip(animationName)
+    if (noLoop) {
+      animation.looping = false
+    }
+    animation.stop()
+    animation.play()
+  }
 }

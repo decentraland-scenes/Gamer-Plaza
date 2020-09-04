@@ -3,7 +3,7 @@ import { createInventory } from '../node_modules/decentraland-builder-scripts/in
 import { AmbientSound } from './ambient'
 import { NPC } from './NPC/npc'
 import { GemsMission } from './NPC/dialog'
-import { playerHoldingKey, Cauldron } from './cauldron'
+import { playerHoldingKey, Cauldron, playerWentIn, keyIcon } from './cauldron'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import { TriggerBoxShape } from '../node_modules/decentraland-ecs-utils/triggers/triggerSystem'
 
@@ -95,22 +95,6 @@ zeuz_mausoleum.addComponent(
 )
 engine.addEntity(zeuz_mausoleum)
 
-let town = new AmbientSound(
-  { position: new Vector3(250, 5, 250) },
-  'sounds/choir.mp3',
-  0,
-  true,
-  0.4
-)
-
-let thunder = new AmbientSound(
-  { position: new Vector3(75, 5, 75) },
-  'sounds/thunder.mp3',
-  0,
-  true,
-  0.6
-)
-
 export let chaman = new NPC(
   { position: new Vector3(62, 4, 71), rotation: Quaternion.Euler(0, 200, 0) },
   new GLTFShape('models/game/npc.glb'),
@@ -118,8 +102,7 @@ export let chaman = new NPC(
   () => {
     if (!chaman.introduced) {
       chaman.talk(0)
-      //cauldron.show()
-      // addVases()
+      arrowNPC.getComponent(GLTFShape).visible = false
     } else if (!chaman.solvedProblem) {
       let randomNum = Math.random()
       if (randomNum > 0.5) {
@@ -128,6 +111,7 @@ export let chaman = new NPC(
         chaman.talk(9)
       }
     } else if (chaman.solvedProblem) {
+      arrowNPC.getComponent(GLTFShape).visible = false
       if (!cauldron.hasGems) {
         chaman.talk(12)
       } else if (!playerHoldingKey) {
@@ -143,6 +127,17 @@ export let cauldron = new Cauldron({
   rotation: Quaternion.Euler(0, 180, 0),
 })
 
+export let arrowNPC = new Entity()
+arrowNPC.addComponent(new GLTFShape('models/game/Arrow.glb'))
+arrowNPC.addComponent(
+  new Transform({
+    position: new Vector3(0, 2.5, 0),
+    scale: new Vector3(1.5, 1.5, 1.5),
+  })
+)
+engine.addEntity(arrowNPC)
+arrowNPC.setParent(chaman)
+
 /// Doors
 let hades_door_left = new Entity()
 hades_door_left.addComponent(new GLTFShape('models/plaza/hades_door_left.glb'))
@@ -155,6 +150,7 @@ hades_door_left.addComponent(new Animator())
 let doorLA = new AnimationState('Hades_DoorLeftAction', { looping: false })
 hades_door_left.getComponent(Animator).addClip(doorLA)
 engine.addEntity(hades_door_left)
+doorLA.stop()
 
 let hades_door_right = new Entity()
 hades_door_right.addComponent(
@@ -169,8 +165,9 @@ hades_door_right.addComponent(new Animator())
 let doorRA = new AnimationState('Hades_DoorRight_Open', { looping: false })
 hades_door_right.getComponent(Animator).addClip(doorRA)
 engine.addEntity(hades_door_right)
+doorRA.stop()
 
-let doorTrigger = new Entity()
+export let doorTrigger = new Entity()
 doorTrigger.addComponent(
   new Transform({
     position: new Vector3(72, 8, 75),
@@ -179,17 +176,62 @@ doorTrigger.addComponent(
 engine.addEntity(doorTrigger)
 doorTrigger.addComponent(
   new utils.TriggerComponent(
-    new TriggerBoxShape(new Vector3(4, 4, 4), Vector3.Zero()),
+    new TriggerBoxShape(new Vector3(5, 5, 5), Vector3.Zero()),
     null,
     null,
     null,
     null,
     () => {
-      if (!playerHoldingKey) return
+      if (!playerHoldingKey || playerWentIn) return
       chaman.talk(15)
 
       doorRA.play()
       doorLA.play()
+      keyIcon.image.visible = false
+      playerWentIn = true
     }
   )
+)
+
+let sceneLimitsTrigger = new Entity()
+sceneLimitsTrigger.addComponent(
+  new Transform({
+    position: new Vector3(160, 8, 160),
+  })
+)
+engine.addEntity(sceneLimitsTrigger)
+sceneLimitsTrigger.addComponent(
+  new utils.TriggerComponent(
+    new TriggerBoxShape(new Vector3(16 * 18.8, 50, 16 * 18.8), Vector3.Zero()),
+    null,
+    null,
+    null,
+    null,
+    null,
+    () => {
+      log('walking out')
+      if (!chaman.introduced || playerHoldingKey || playerWentIn) {
+        return
+      }
+      chaman.talk(16)
+    }
+  )
+)
+
+// Ambient sound
+
+let town = new AmbientSound(
+  { position: new Vector3(250, 5, 250) },
+  'sounds/choir.mp3',
+  0,
+  true,
+  0.4
+)
+
+let thunder = new AmbientSound(
+  { position: new Vector3(75, 5, 75) },
+  'sounds/thunder.mp3',
+  0,
+  true,
+  0.6
 )

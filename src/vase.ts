@@ -73,8 +73,6 @@ export class Vase extends Entity {
   }
 }
 
-let vases: Vase[] = new Array(35)
-
 let vasePositions: { pos: Vector3; gem?: boolean }[] = [
   { pos: new Vector3(69.4803466796875, 5.671645641326904, 61.69293212890625) },
   { pos: new Vector3(80.364990234375, 4.370688438415527, 41.86681365966797) },
@@ -143,9 +141,11 @@ let vasePositions: { pos: Vector3; gem?: boolean }[] = [
   { pos: new Vector3(91.61083984375, 19.75499725341797, 193.26624298095703) },
 ]
 
+let vases: Vase[] = [] //new Array(vasePositions.length)
+
 export function addVases() {
+  vases = []
   for (let vase of vasePositions) {
-    log(vase.pos)
     let thisVase = new Vase(vase.pos, vase.gem)
     vases.push(thisVase)
   }
@@ -156,14 +156,6 @@ export function removeVases() {
     engine.removeEntity(vase)
   }
   vases = []
-  //   engine.removeEntity(vase1)
-  //   engine.removeEntity(vase2)
-  //   engine.removeEntity(vase3)
-  //   engine.removeEntity(vase4)
-  //   engine.removeEntity(vase5)
-  //   engine.removeEntity(vase6)
-  //   engine.removeEntity(vase7)
-  //   engine.removeEntity(vase8)
 }
 
 /// REUSABLE EXPLODING SECTIONS

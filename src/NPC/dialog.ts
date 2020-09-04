@@ -6,14 +6,35 @@ export let GemsMission: Dialog[] = [
     text: `Hello stranger ... brrr`,
   },
   {
-    text: `A myth says that there are hidden gems, kept inside the vases you see around the plaza.`,
+    text: `A myth says that there are hidden gems, kept inside the ancient vases you see around the plaza.`,
+    image: {
+      path: 'images/vessel.png',
+      height: 128,
+      width: 128,
+      offsetX: -20,
+      section: { sourceHeight: 256, sourceWidth: 256 },
+    },
   },
   {
-    text: `Not all vases have them. I've been trying a few with no luck brrrr  ... I can't anymore, so tired`,
+    text: `Not all vases have gems in them. I've been trying a few with no luck brrrr  ... I can't anymore, so tired`,
+    image: {
+      path: 'images/vessel.png',
+      height: 128,
+      width: 128,
+      offsetX: -20,
+      section: { sourceHeight: 256, sourceWidth: 256 },
+    },
   },
 
   {
     text: `I need about 10 of these gems. With that I can then melt them and forge a key, that we can use to open the Hades's Mausoleum brrr....`,
+    image: {
+      path: 'images/Key.png',
+      height: 128,
+      width: 128,
+      offsetX: -20,
+      section: { sourceHeight: 256, sourceWidth: 256 },
+    },
   },
   {
     text: `Can you help me finding them? brrr...`,
@@ -23,9 +44,6 @@ export let GemsMission: Dialog[] = [
     labelF: { label: `I'm busy`, offsetX: 12 },
     ifPressE: 5,
     ifPressF: 7,
-    triggeredByE: () => {
-      startGemUI()
-    },
   },
   {
     text: `Ok...awesome! brr.... in the meantime i will prepare the cauldron to melt the gems brr...`,
@@ -33,6 +51,9 @@ export let GemsMission: Dialog[] = [
   {
     text: `But hurry up...brrr i'm very impatient brrr... If you don't come back within 5 minutes i will turn off the fire...brrr`,
     isEndOfDialog: true,
+    triggeredByNext: () => {
+      startGemUI()
+    },
   },
 
   {
@@ -69,6 +90,11 @@ export let GemsMission: Dialog[] = [
   },
   {
     text: `hehe i knew you could do it, stranger... brr.... i'm going to look for more secrets in this plaza....`,
+    isEndOfDialog: true,
+  },
+
+  {
+    text: `Where are you going?? The gems are all inside the Gamer Plaza, don't leave!`,
     isEndOfDialog: true,
   },
 ]

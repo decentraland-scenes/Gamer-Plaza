@@ -7,9 +7,12 @@ import {
 } from './gem'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import * as ui from '../node_modules/@dcl/ui-utils/index'
-import { chaman } from './game'
+import { chaman, arrowNPC, doorTrigger } from './game'
 
 export let playerHoldingKey: boolean = false
+export let playerWentIn: boolean = false
+
+export let keyIcon: ui.MediumIcon
 
 export class Cauldron extends Entity {
   ready: boolean = false
@@ -75,11 +78,12 @@ export class Cauldron extends Entity {
         () => {
           // pick up
           this.key.getComponent(GLTFShape).visible = false
-          let keyIcon = new ui.MediumIcon('images/key.png', 0, 0, 128, 128, {
+          keyIcon = new ui.MediumIcon('images/key.png', 0, 0, 128, 128, {
             sourceHeight: 256,
             sourceWidth: 256,
           })
           playerHoldingKey = true
+          //arrowNPC.setParent(doorTrigger)
         },
         {
           hoverText: 'Pick up',

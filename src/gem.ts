@@ -1,7 +1,7 @@
 import * as ui from '../node_modules/@dcl/ui-utils/index'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 
-import { cauldron, chaman } from './game'
+import { cauldron, chaman, arrowNPC } from './game'
 import { TimerSystem } from '../node_modules/@dcl/ui-utils/utils/timerSystem'
 import { addVases, removeVases } from './vase'
 import { SFHeavyFont } from '../node_modules/@dcl/ui-utils/utils/default-ui-comopnents'
@@ -64,6 +64,8 @@ export function findGem(vase: Entity) {
     chaman.talk(11)
     cauldron.ready = true
     chaman.solvedProblem = true
+    arrowNPC.setParent(cauldron)
+    arrowNPC.getComponent(GLTFShape).visible = true
   }
 }
 
@@ -106,13 +108,16 @@ class CountdownSystem implements ISystem {
       if (secondsCounter.read() < 0) {
         if (minutesCounter.read() <= 0) {
           // TIME UP
+
           this.running = false
+          removeVases()
+          cauldron.hide()
           gemsCounter.set(0)
           secondsCounter.set(0)
-          removeVases()
           chaman.talk(10)
           chaman.introduced = false
-          cauldron.hide()
+          arrowNPC.setParent(chaman)
+          arrowNPC.getComponent(GLTFShape).visible = true
         } else {
           secondsCounter.set(59)
           minutesCounter.decrease()
