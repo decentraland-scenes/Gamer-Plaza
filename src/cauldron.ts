@@ -7,7 +7,7 @@ import {
 } from './gem'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import * as ui from '../node_modules/@dcl/ui-utils/index'
-import { chaman, arrowNPC, doorTrigger } from './game'
+import { chaman, doorTrigger, arrow, cauldron } from './game'
 
 export let playerHoldingKey: boolean = false
 export let playerWentIn: boolean = false
@@ -83,7 +83,12 @@ export class Cauldron extends Entity {
             sourceWidth: 256,
           })
           playerHoldingKey = true
-          //arrowNPC.setParent(doorTrigger)
+          arrow.move(
+            doorTrigger,
+            new Vector3(0, 45, 0),
+            new Vector3(1.7, 3, 1),
+            new Vector3(3, 3, 3)
+          )
         },
         {
           hoverText: 'Pick up',
@@ -114,6 +119,7 @@ export class Cauldron extends Entity {
       this.gemAnimation.play()
       this.gem.getComponent(GLTFShape).visible = true
       this.animation.play()
+      arrow.hide()
       this.gem.addComponentOrReplace(
         new utils.Delay(4000, () => {
           this.key.getComponent(GLTFShape).visible = true
@@ -121,9 +127,10 @@ export class Cauldron extends Entity {
           this.keySpawnAnimation.play()
           this.key.addComponentOrReplace(
             new utils.Delay(2500, () => {
-              chaman.talk(13)
+              chaman.talk(16)
               this.keySpawnAnimation.stop()
               this.keyIdleAnimation.play()
+              arrow.move(cauldron, Vector3.Zero(), new Vector3(0, 3, 0))
             })
           )
         })

@@ -6,6 +6,7 @@ import { GemsMission } from './NPC/dialog'
 import { playerHoldingKey, Cauldron, playerWentIn, keyIcon } from './cauldron'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import { TriggerBoxShape } from '../node_modules/decentraland-ecs-utils/triggers/triggerSystem'
+import { PointerArrow } from './pointerArrow'
 
 Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
   //   log(`pos: `, Camera.instance.position)
@@ -102,20 +103,18 @@ export let chaman = new NPC(
   () => {
     if (!chaman.introduced) {
       chaman.talk(0)
-      arrowNPC.getComponent(GLTFShape).visible = false
     } else if (!chaman.solvedProblem) {
       let randomNum = Math.random()
       if (randomNum > 0.5) {
-        chaman.talk(8)
-      } else {
         chaman.talk(9)
+      } else {
+        chaman.talk(10)
       }
     } else if (chaman.solvedProblem) {
-      arrowNPC.getComponent(GLTFShape).visible = false
       if (!cauldron.hasGems) {
-        chaman.talk(12)
+        chaman.talk(15)
       } else if (!playerHoldingKey) {
-        chaman.talk(14)
+        chaman.talk(16)
       }
     }
   },
@@ -127,16 +126,13 @@ export let cauldron = new Cauldron({
   rotation: Quaternion.Euler(0, 180, 0),
 })
 
-export let arrowNPC = new Entity()
-arrowNPC.addComponent(new GLTFShape('models/game/Arrow.glb'))
-arrowNPC.addComponent(
-  new Transform({
+export let arrow = new PointerArrow(
+  {
     position: new Vector3(0, 2.5, 0),
     scale: new Vector3(1.5, 1.5, 1.5),
-  })
+  },
+  chaman
 )
-engine.addEntity(arrowNPC)
-arrowNPC.setParent(chaman)
 
 /// Doors
 let hades_door_left = new Entity()
@@ -183,11 +179,12 @@ doorTrigger.addComponent(
     null,
     () => {
       if (!playerHoldingKey || playerWentIn) return
-      chaman.talk(15)
+      chaman.talk(18)
 
       doorRA.play()
       doorLA.play()
       keyIcon.image.visible = false
+      arrow.hide()
       playerWentIn = true
     }
   )
@@ -213,7 +210,7 @@ sceneLimitsTrigger.addComponent(
       if (!chaman.introduced || playerHoldingKey || playerWentIn) {
         return
       }
-      chaman.talk(16)
+      chaman.talk(14)
     }
   )
 )

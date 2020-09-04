@@ -1,4 +1,5 @@
 import { findGem } from './gem'
+import { arrow, chaman } from './game'
 
 export class Vase extends Entity {
   constructor(position: Vector3, hasGem?: boolean) {
@@ -10,11 +11,11 @@ export class Vase extends Entity {
 
     this.addComponent(
       new Transform({
-        position: position,
+        position: new Vector3(position.x, position.y - 1.671, position.z),
         rotation: Quaternion.Euler(0, randomRotation, 0),
       })
     )
-    this.getComponent(Transform).translate(new Vector3(0, -1.671, 0))
+    //this.getComponent(Transform).translate(new Vector3(0, -1.671, 0))
 
     engine.addEntity(this)
     this.addComponent(
@@ -74,7 +75,6 @@ export class Vase extends Entity {
 }
 
 let vasePositions: { pos: Vector3; gem?: boolean }[] = [
-  { pos: new Vector3(69.4803466796875, 5.671645641326904, 61.69293212890625) },
   { pos: new Vector3(80.364990234375, 4.370688438415527, 41.86681365966797) },
   {
     pos: new Vector3(81.842529296875, 4.1735968589782715, 38.18090057373047),
@@ -106,7 +106,7 @@ let vasePositions: { pos: Vector3; gem?: boolean }[] = [
   },
   { pos: new Vector3(46.4910888671875, 2.4291863441467285, 174.0976848602295) },
   {
-    pos: new Vector3(42.189697265625, 2.3493411540985107, 173.2629795074463),
+    pos: new Vector3(89.17529296875, 5.760749816894531, 245.75502014160156),
     gem: true,
   },
   { pos: new Vector3(47.5859375, 3.044893741607666, 170.2263240814209) },
@@ -142,8 +142,21 @@ let vasePositions: { pos: Vector3; gem?: boolean }[] = [
 ]
 
 let vases: Vase[] = [] //new Array(vasePositions.length)
+let demoVase: Vase
 
 export function addVases() {
+  demoVase = new Vase(
+    new Vector3(69.4803466796875, 5.671645641326904, 61.69293212890625)
+  )
+  arrow.move(demoVase, new Vector3(0, 45, 0))
+  demoVase.addComponentOrReplace(
+    new OnPointerDown(() => {
+      demoVase.explode()
+      arrow.hide()
+      chaman.talk(19)
+    })
+  )
+
   vases = []
   for (let vase of vasePositions) {
     let thisVase = new Vase(vase.pos, vase.gem)
@@ -156,6 +169,7 @@ export function removeVases() {
     engine.removeEntity(vase)
   }
   vases = []
+  engine.removeEntity(demoVase)
 }
 
 /// REUSABLE EXPLODING SECTIONS

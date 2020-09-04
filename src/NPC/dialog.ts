@@ -49,7 +49,10 @@ export let GemsMission: Dialog[] = [
     text: `Ok...awesome! brr.... in the meantime i will prepare the cauldron to melt the gems brr...`,
   },
   {
-    text: `But hurry up...brrr i'm very impatient brrr... If you don't come back within 5 minutes i will turn off the fire...brrr`,
+    text: `But hurry up...brrr i'm very impatient brrr... If you don't come back within 6 minutes and 66 seconds I will turn off the fire...brrr`,
+  },
+  {
+    text: `And I know... that's 7 minutes and 6 seconds, but it's kind of my thing.`,
     isEndOfDialog: true,
     triggeredByNext: () => {
       startGemUI()
@@ -69,19 +72,29 @@ export let GemsMission: Dialog[] = [
     isEndOfDialog: true,
   },
   {
+    //11
     text: `hmm... brrr.... too slow...  I'm turning off the fire now`,
     isEndOfDialog: true,
   },
   {
-    text: `Awesome, you found enough! brr... hurry up and put the gems into the cauldron and let's see what happens!`,
+    text: `Awesome, you found enough gems! brr`,
+  },
+  {
+    text: `Hurry up and put the gems into the cauldron. Let's see if I can craft that key with them!`,
     isEndOfDialog: true,
   },
+  {
+    text: `Where are you going?? The gems are all inside the Gamer Plaza, don't leave!`,
+    isEndOfDialog: true,
+  },
+
   {
     text: `hmmm br... what are you waiting for? Throw the gems into the cauldron!`,
     isEndOfDialog: true,
   },
   {
-    text: `ha! looks great, right? brrrr... take the key and open the door!`,
+    //16
+    text: `Ha! That's a fine key, isn't it? brrrr... take it and open the door!`,
     isEndOfDialog: true,
   },
   {
@@ -92,9 +105,8 @@ export let GemsMission: Dialog[] = [
     text: `hehe i knew you could do it, stranger... brr.... i'm going to look for more secrets in this plaza....`,
     isEndOfDialog: true,
   },
-
   {
-    text: `Where are you going?? The gems are all inside the Gamer Plaza, don't leave!`,
+    text: `No gem in this one... but keep looking brrrr`,
     isEndOfDialog: true,
   },
 ]

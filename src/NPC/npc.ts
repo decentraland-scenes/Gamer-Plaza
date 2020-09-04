@@ -9,13 +9,15 @@ export class NPC extends Entity {
   public script: Dialog[]
   public dialog: ui.DialogWindow
   inCooldown: boolean
+  public idleAnim: string
   constructor(
     position: TranformConstructorArgs,
     model: GLTFShape,
     script: Dialog[],
     onActivate: () => void,
     portrait?: string,
-    reactDistance?: number
+    reactDistance?: number,
+    idleAnim?: string
   ) {
     super()
     this.addComponent(model)
@@ -58,6 +60,10 @@ export class NPC extends Entity {
         }
       )
     )
+
+    if (idleAnim) {
+      this.idleAnim = idleAnim
+    }
   }
   talk(startIndex: number) {
     this.introduced = true
@@ -69,10 +75,23 @@ export class NPC extends Entity {
       })
     )
   }
-  playAnimation(animationName: string, noLoop?: boolean) {
+  playAnimation(animationName: string, noLoop?: boolean, duration?: number) {
     let animation = this.getComponent(Animator).getClip(animationName)
     if (noLoop) {
       animation.looping = false
+      if (duration) {
+        let dummyEnt = new Entity()
+        engine.addEntity(dummyEnt)
+        dummyEnt.addComponentOrReplace(
+          new utils.Delay(duration, () => {
+            let idleAnim = this.getComponent(Animator).getClip(
+              this.idleAnim ? this.idleAnim : 'Idle'
+            )
+            animation.stop()
+            idleAnim.play()
+          })
+        )
+      }
     }
     animation.stop()
     animation.play()
