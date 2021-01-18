@@ -8,6 +8,7 @@ import {
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import * as ui from '../node_modules/@dcl/ui-utils/index'
 import { chaman, doorTrigger, arrow, cauldron } from './game'
+import { GemsMission } from './NPC/dialog'
 
 export let playerHoldingKey: boolean = false
 export let playerWentIn: boolean = false
@@ -127,7 +128,7 @@ export class Cauldron extends Entity {
           this.keySpawnAnimation.play()
           this.key.addComponentOrReplace(
             new utils.Delay(2500, () => {
-              chaman.talk(16)
+              chaman.talk(GemsMission, 'getkey')
               this.keySpawnAnimation.stop()
               this.keyIdleAnimation.play()
               arrow.move(cauldron, Vector3.Zero(), new Vector3(0, 3, 0))

@@ -1,12 +1,14 @@
 import { createChannel } from '../node_modules/decentraland-builder-scripts/channel'
 import { createInventory } from '../node_modules/decentraland-builder-scripts/inventory'
 import { AmbientSound } from './ambient'
-import { NPC } from './NPC/npc'
 import { GemsMission } from './NPC/dialog'
 import { playerHoldingKey, Cauldron, playerWentIn, keyIcon } from './cauldron'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import { TriggerBoxShape } from '../node_modules/decentraland-ecs-utils/triggers/triggerSystem'
 import { PointerArrow } from './pointerArrow'
+import { Dialog, NPC } from '../node_modules/@dcl/npc-utils/index'
+import { Bell } from './bell'
+import { Potion } from './potion'
 
 Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {
   //   log(`pos: `, Camera.instance.position)
@@ -98,27 +100,29 @@ engine.addEntity(zeuz_mausoleum)
 
 export let chaman = new NPC(
   { position: new Vector3(62, 4, 71), rotation: Quaternion.Euler(0, 200, 0) },
-  new GLTFShape('models/game/npc.glb'),
-  GemsMission,
+  'models/game/npc.glb',
   () => {
     if (!chaman.introduced) {
-      chaman.talk(0)
-    } else if (!chaman.solvedProblem) {
+      chaman.talk(GemsMission)
+    } else if (!cauldron.ready) {
       let randomNum = Math.random()
       if (randomNum > 0.5) {
-        chaman.talk(9)
+        chaman.talk(GemsMission, 'gemstillout1')
       } else {
-        chaman.talk(10)
+        chaman.talk(GemsMission, 'gemstillout2')
       }
-    } else if (chaman.solvedProblem) {
+    } else {
       if (!cauldron.hasGems) {
-        chaman.talk(15)
+        chaman.talk(GemsMission, 'cauldronreminder')
       } else if (!playerHoldingKey) {
-        chaman.talk(16)
+        chaman.talk(GemsMission, 'getkey')
       }
     }
   },
-  'images/npc.png'
+  {
+    portrait: 'images/npc.png',
+    faceUser: true,
+  }
 )
 
 export let cauldron = new Cauldron({
@@ -179,7 +183,7 @@ doorTrigger.addComponent(
     null,
     () => {
       if (!playerHoldingKey || playerWentIn) return
-      chaman.talk(18)
+      chaman.talk(GemsMission, 'finished')
 
       doorRA.play()
       doorLA.play()
@@ -210,7 +214,7 @@ sceneLimitsTrigger.addComponent(
       if (!chaman.introduced || playerHoldingKey || playerWentIn) {
         return
       }
-      chaman.talk(14)
+      chaman.talk(GemsMission, 'stay')
     }
   )
 )
@@ -232,3 +236,14 @@ let thunder = new AmbientSound(
   true,
   0.6
 )
+
+let mainBell = new Bell({
+  position: new Vector3(55, 4.2, 266),
+  rotation: Quaternion.Euler(0, 45, 0),
+  scale: new Vector3(3, 3, 3),
+})
+
+let potion = new Potion({
+  position: new Vector3(30, 4.3, 32.6),
+  scale: new Vector3(2, 2, 2),
+})

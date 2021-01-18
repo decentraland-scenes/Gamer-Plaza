@@ -2,8 +2,8 @@ import * as ui from '../node_modules/@dcl/ui-utils/index'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 
 import { cauldron, chaman, arrow } from './game'
+import { GemsMission } from './NPC/dialog'
 import { addVases, removeVases } from './vase'
-import { SFHeavyFont } from '../node_modules/@dcl/ui-utils/utils/default-ui-comopnents'
 
 let totalGems = 10
 let firstTime: boolean = true
@@ -24,7 +24,7 @@ export let gemsCounter = new ui.UICounter(
 export let secondsCounter = new ui.UICounter(66, -14, 49, Color4.Black())
 export let timerSeparaor = new ui.CornerLabel(':', -39, 49, Color4.Black())
 export let minutesCounter = new ui.UICounter(6, -64, 49, Color4.Black())
-gemsCounter.uiText.font = SFHeavyFont
+gemsCounter.uiText.font = ui.SFHeavyFont
 gemsCounter.uiText.visible = false
 secondsCounter.uiText.visible = false
 timerSeparaor.uiText.visible = false
@@ -71,9 +71,8 @@ export function findGem(vase: Entity) {
   gemsCounter.increase()
   if (gemsCounter.read() >= totalGems) {
     timer.running = false
-    chaman.talk(12)
+    chaman.talk(GemsMission, 'success')
     cauldron.ready = true
-    chaman.solvedProblem = true
     arrow.move(cauldron)
   }
 }
@@ -134,7 +133,7 @@ export function resetGame() {
   cauldron.hide()
   gemsCounter.set(0)
   secondsCounter.set(0)
-  chaman.talk(11)
+  chaman.talk(GemsMission, 'tooslow')
   chaman.introduced = false
   arrow.move(chaman)
 

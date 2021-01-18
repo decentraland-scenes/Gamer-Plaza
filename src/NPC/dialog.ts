@@ -1,4 +1,4 @@
-import { Dialog } from '../../node_modules/@dcl/ui-utils/utils/types'
+import { Dialog } from '../../node_modules/@dcl/npc-utils/utils/types'
 import { startGemUI } from '../gem'
 
 export let GemsMission: Dialog[] = [
@@ -40,12 +40,13 @@ export let GemsMission: Dialog[] = [
     text: `Can you help me finding them? brrr...`,
     offsetY: 20,
     isQuestion: true,
-    labelE: { label: `Yes!`, offsetX: 12 },
-    labelF: { label: `I'm busy`, offsetX: 12 },
-    ifPressE: 5,
-    ifPressF: 7,
+    buttons: [
+      { label: `Yes!`, goToDialog: 'yes', offsetX: 12 },
+      { label: `I'm busy`, goToDialog: 'no', offsetX: 12 },
+    ],
   },
   {
+    name: 'yes',
     text: `Ok...awesome! brr.... in the meantime i will prepare the cauldron to melt the gems brr...`,
   },
   {
@@ -60,23 +61,28 @@ export let GemsMission: Dialog[] = [
   },
 
   {
+    name: 'no',
     text: `Ok. come back anytime stranger brr....`,
     isEndOfDialog: true,
   },
   {
+    name: 'gemstillout1',
     text: `hmm... brrr.... The gems are out there, go find them! I need at least 10... br....`,
     isEndOfDialog: true,
   },
   {
+    name: 'gemstillout2',
     text: `What are you doing still here? Go find the gems!`,
     isEndOfDialog: true,
   },
   {
     //11
+    name: 'tooslow',
     text: `hmm... brrr.... too slow...  I'm turning off the fire now`,
     isEndOfDialog: true,
   },
   {
+    name: 'success',
     text: `Awesome, you found enough gems! brr`,
   },
   {
@@ -84,28 +90,34 @@ export let GemsMission: Dialog[] = [
     isEndOfDialog: true,
   },
   {
+    name: 'stay',
     text: `Where are you going?? The gems are all inside the Gamer Plaza, don't leave!`,
     isEndOfDialog: true,
   },
 
   {
+    name: 'cauldronreminder',
     text: `hmmm br... what are you waiting for? Throw the gems into the cauldron!`,
     isEndOfDialog: true,
   },
   {
     //16
+    name: 'getkey',
     text: `Ha! That's a fine key, isn't it? brrrr... take it and open the door!`,
     isEndOfDialog: true,
   },
   {
+    name: 'usekey',
     text: `hmmm br... what are you waiting for? use the key to open the door!`,
     isEndOfDialog: true,
   },
   {
+    name: 'finished',
     text: `hehe i knew you could do it, stranger... brr.... i'm going to look for more secrets in this plaza....`,
     isEndOfDialog: true,
   },
   {
+    name: 'nogem',
     text: `No gem in this one... but keep looking brrrr`,
     isEndOfDialog: true,
   },
