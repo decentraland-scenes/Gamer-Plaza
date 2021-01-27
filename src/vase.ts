@@ -1,5 +1,6 @@
 import { findGem } from './gem'
-import { arrow, chaman } from './game'
+import { arrow, chaman } from './quest'
+import { GemsMission } from './NPC/dialog'
 
 export class Vase extends Entity {
   constructor(position: Vector3, hasGem?: boolean) {
@@ -153,7 +154,7 @@ export function addVases() {
     new OnPointerDown(() => {
       demoVase.explode()
       arrow.hide()
-      chaman.talk(19)
+      chaman.talk(GemsMission, 19)
     })
   )
 

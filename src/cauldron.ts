@@ -7,11 +7,12 @@ import {
 } from './gem'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import * as ui from '../node_modules/@dcl/ui-utils/index'
-import { chaman, doorTrigger, arrow, cauldron } from './game'
+import { chaman, arrow, cauldron, client } from './quest'
 import { GemsMission } from './NPC/dialog'
+import { ProgressStatus } from '../node_modules/dcl-quests-client/index'
+import { doorTrigger } from './quest'
 
 export let playerHoldingKey: boolean = false
-export let playerWentIn: boolean = false
 
 export let keyIcon: ui.MediumIcon
 
@@ -24,7 +25,7 @@ export class Cauldron extends Entity {
   gemAnimation: AnimationState
   keySpawnAnimation: AnimationState
   keyIdleAnimation: AnimationState
-  constructor(position: TranformConstructorArgs) {
+  constructor(position: TransformConstructorArgs) {
     super()
     this.addComponent(new GLTFShape('models/game/cauldron.glb'))
     this.getComponent(GLTFShape).visible = false
@@ -142,6 +143,12 @@ export class Cauldron extends Entity {
       minutesCounter.uiText.visible = false
       timerSeparaor.uiText.visible = false
       gemUIBck.image.visible = false
+
+      //   client.makeProgress(
+      //     'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
+      //     '20623a96-281a-4ac0-8aea-c5536d20b036',
+      //     { type: 'single', status: ProgressStatus.COMPLETED }
+      //   )
     }
   }
 }
