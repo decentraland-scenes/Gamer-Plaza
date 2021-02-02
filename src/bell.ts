@@ -1,5 +1,4 @@
-import { ProgressStatus } from '../node_modules/dcl-quests-client/index'
-import { client } from './quest'
+import { progressInQuest } from './quest'
 
 export class Bell extends Entity {
   clip = new AudioClip('sounds/bell.mp3')
@@ -53,11 +52,7 @@ export class Bell extends Entity {
           const value = !this.active
           this.toggle(this, value)
 
-          //   client.makeProgress(
-          //     'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
-          //     'a2085915-f276-4d08-a87d-956e19055444',
-          //     { type: 'single', status: ProgressStatus.COMPLETED }
-          //   )
+          progressInQuest('a2085915-f276-4d08-a87d-956e19055444')
         },
         {
           button: ActionButton.POINTER,

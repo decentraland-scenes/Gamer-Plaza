@@ -1,6 +1,5 @@
 import { Dialog } from '../../node_modules/@dcl/npc-utils/utils/types'
-import { ProgressStatus } from '../../node_modules/dcl-quests-client/index'
-import { client } from '../quest'
+import { progressInQuest } from '../quest'
 import { startGemUI } from '../gem'
 
 export let GemsMission: Dialog[] = [
@@ -58,11 +57,8 @@ export let GemsMission: Dialog[] = [
     text: `And I know... that's 7 minutes and 6 seconds, but it's kind of my thing.`,
     isEndOfDialog: true,
     triggeredByNext: () => {
-      client.makeProgress(
-        'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
-        'bf851b43-f174-4b31-af73-b7b098c00263',
-        { type: 'single', status: ProgressStatus.COMPLETED }
-      )
+      progressInQuest('bf851b43-f174-4b31-af73-b7b098c00263')
+
       startGemUI()
     },
   },

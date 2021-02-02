@@ -60,9 +60,9 @@ export async function handleQuests() {
     baseUrl: 'https://quests-api.decentraland.io',
     fetchFn: signedFetch,
   })
-  let q = await client.getQuestDetails('b7c9023f-4b6e-4d07-9d74-a6914697fe9b')
+  let q = await client.getQuestDetails('b7c9023f-4b6e-4d07-9d74-a6914697fe9c')
   log('QUEST ', q)
-  if (introDone && q.ok && q.body.progressStatus != ProgressStatus.COMPLETED) {
+  if (q.ok && q.body.progressStatus != ProgressStatus.COMPLETED) {
     for (let task of q.body.tasks) {
       if (
         task.id == '7bd3d240-13fa-4559-b4fe-f870a9afd5d6' &&
@@ -88,7 +88,7 @@ export async function handleQuests() {
         bellDone = true
       }
     }
-    if (q.ok) {
+    if (q.ok && introDone) {
       //&& q.body.progressStatus != ProgressStatus.COMPLETED) {
       if (!chamanDone) {
         chaman.getComponent(Transform).position.y = 4
@@ -173,7 +173,7 @@ doorTrigger.addComponent(
       playerWentIn = true
 
       client.makeProgress(
-        'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
+        'b7c9023f-4b6e-4d07-9d74-a6914697fe9c',
         'b3f05f45-5344-4616-909e-afacbec74910',
         { type: 'single', status: ProgressStatus.COMPLETED }
       )
@@ -205,3 +205,13 @@ sceneLimitsTrigger.addComponent(
     }
   )
 )
+
+export function progressInQuest(step: string, multipleSteps?: boolean) {
+  client.makeProgress(
+    'b7c9023f-4b6e-4d07-9d74-a6914697fe9c',
+    step,
+    multipleSteps
+      ? { type: 'count', amount: 1 }
+      : { type: 'single', status: ProgressStatus.COMPLETED }
+  )
+}

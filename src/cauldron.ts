@@ -7,9 +7,9 @@ import {
 } from './gem'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 import * as ui from '../node_modules/@dcl/ui-utils/index'
-import { chaman, arrow, cauldron, client } from './quest'
+import { chaman, arrow, cauldron, progressInQuest } from './quest'
 import { GemsMission } from './NPC/dialog'
-import { ProgressStatus } from '../node_modules/dcl-quests-client/index'
+
 import { doorTrigger } from './quest'
 
 export let playerHoldingKey: boolean = false
@@ -144,11 +144,7 @@ export class Cauldron extends Entity {
       timerSeparaor.uiText.visible = false
       gemUIBck.image.visible = false
 
-      //   client.makeProgress(
-      //     'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
-      //     '20623a96-281a-4ac0-8aea-c5536d20b036',
-      //     { type: 'single', status: ProgressStatus.COMPLETED }
-      //   )
+      progressInQuest('20623a96-281a-4ac0-8aea-c5536d20b036')
     }
   }
 }

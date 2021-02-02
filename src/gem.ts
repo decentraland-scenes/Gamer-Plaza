@@ -1,8 +1,7 @@
 import * as ui from '../node_modules/@dcl/ui-utils/index'
-import { ProgressStatus } from '../node_modules/dcl-quests-client/index'
 import utils from '../node_modules/decentraland-ecs-utils/index'
 
-import { cauldron, chaman, arrow, client } from './quest'
+import { cauldron, chaman, arrow, progressInQuest } from './quest'
 import { GemsMission } from './NPC/dialog'
 import { addVases, removeVases } from './vase'
 
@@ -76,11 +75,7 @@ export function findGem(vase: Entity) {
     cauldron.ready = true
     arrow.move(cauldron)
   }
-  client.makeProgress(
-    'b7c9023f-4b6e-4d07-9d74-a6914697fe9b',
-    '168debbc-d113-4dfd-817b-00afaf2f28ff',
-    { type: 'count', amount: 1 }
-  )
+  progressInQuest('168debbc-d113-4dfd-817b-00afaf2f28ff', true)
 }
 
 let undergronundDummy = new Entity()
