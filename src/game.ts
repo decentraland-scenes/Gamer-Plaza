@@ -1,5 +1,4 @@
 import { AmbientSound } from './ambient'
-
 import { handleQuests } from './quest'
 
 // Input.instance.subscribe('BUTTON_DOWN', ActionButton.PRIMARY, false, (e) => {

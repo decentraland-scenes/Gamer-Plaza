@@ -1,4 +1,4 @@
-import * as ui from '../node_modules/@dcl/ui-utils/index'
+import * as ui from '@dcl/ui-scene-utils'
 import { progressInQuest } from './quest'
 
 export class Potion extends Entity {

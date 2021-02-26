@@ -1,5 +1,5 @@
-import * as ui from '../node_modules/@dcl/ui-utils/index'
-import utils from '../node_modules/decentraland-ecs-utils/index'
+import * as utils from '@dcl/ecs-scene-utils'
+import * as ui from '@dcl/ui-scene-utils'
 
 import { cauldron, chaman, arrow, progressInQuest } from './quest'
 import { GemsMission } from './NPC/dialog'

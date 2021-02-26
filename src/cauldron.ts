@@ -5,8 +5,8 @@ import {
   timerSeparaor,
   gemUIBck,
 } from './gem'
-import utils from '../node_modules/decentraland-ecs-utils/index'
-import * as ui from '../node_modules/@dcl/ui-utils/index'
+import * as utils from '@dcl/ecs-scene-utils'
+import * as ui from '@dcl/ui-scene-utils'
 import { chaman, arrow, cauldron, progressInQuest } from './quest'
 import { GemsMission } from './NPC/dialog'
 

@@ -1,4 +1,4 @@
-import { Dialog } from '../../node_modules/@dcl/npc-utils/utils/types'
+import { Dialog } from '@dcl/npc-scene-utils'
 import { progressInQuest } from '../quest'
 import { startGemUI } from '../gem'
 

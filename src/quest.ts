@@ -1,17 +1,13 @@
-import { signedFetch } from '@decentraland/SignedFetch'
-import { NPC } from '../node_modules/@dcl/npc-utils/index'
-import {
-  QuestsClient,
-  ProgressStatus,
-} from 'dcl-quests-client/quests-client-amd'
+import { RemoteQuestTracker } from 'dcl-ecs-quests'
+import { ProgressStatus } from 'dcl-quests-client/quests-client-amd'
 
-import { TriggerBoxShape } from '../node_modules/decentraland-ecs-utils/triggers/triggerSystem'
 import { Bell } from './bell'
 import { Cauldron, keyIcon, playerHoldingKey } from './cauldron'
 import { GemsMission } from './NPC/dialog'
 import { PointerArrow } from './pointerArrow'
 import { Potion } from './potion'
-import utils from '../node_modules/decentraland-ecs-utils/index'
+import * as utils from '@dcl/ecs-scene-utils'
+import { NPC } from '@dcl/npc-scene-utils'
 
 export let playerWentIn: boolean = false
 
@@ -48,7 +44,7 @@ export let chaman = new NPC(
 export let cauldron: Cauldron
 export let arrow: PointerArrow
 
-export let client: QuestsClient
+export let client: RemoteQuestTracker
 
 let introDone: boolean = false
 let potionDone: boolean = false
@@ -56,14 +52,12 @@ let bellDone: boolean = false
 let chamanDone: boolean = false
 
 export async function handleQuests() {
-  client = await new QuestsClient({
-    baseUrl: 'https://quests-api.decentraland.io',
-    fetchFn: signedFetch,
-  })
-  let q = await client.getQuestDetails('b7c9023f-4b6e-4d07-9d74-a6914697fe9c')
+  client = await new RemoteQuestTracker('b7c9023f-4b6e-4d07-9d74-a6914697fe9c')
+  let q = await client.getCurrentStatePromise()
+
   log('QUEST ', q)
-  if (q.ok && q.body.progressStatus != ProgressStatus.COMPLETED) {
-    for (let task of q.body.tasks) {
+  if (q.progressStatus != ProgressStatus.COMPLETED) {
+    for (let task of q.tasks) {
       if (
         task.id == '7bd3d240-13fa-4559-b4fe-f870a9afd5d6' &&
         task.progressStatus == ProgressStatus.COMPLETED
@@ -89,7 +83,7 @@ export async function handleQuests() {
       }
     }
     if (q.ok && introDone) {
-      //&& q.body.progressStatus != ProgressStatus.COMPLETED) {
+      //&& q.progressStatus != ProgressStatus.COMPLETED) {
       if (!chamanDone) {
         chaman.getComponent(Transform).position.y = 4
         cauldron = new Cauldron({
@@ -156,13 +150,8 @@ doorTrigger.addComponent(
 )
 engine.addEntity(doorTrigger)
 doorTrigger.addComponent(
-  new utils.TriggerComponent(
-    new TriggerBoxShape(new Vector3(5, 5, 5), Vector3.Zero()),
-    null,
-    null,
-    null,
-    null,
-    () => {
+  new utils.TriggerComponent(new utils.TriggerBoxShape(new Vector3(5, 5, 5)), {
+    onCameraEnter: () => {
       if (!playerHoldingKey || playerWentIn) return
       chaman.talk(GemsMission, 'finished')
 
@@ -172,13 +161,12 @@ doorTrigger.addComponent(
       arrow.hide()
       playerWentIn = true
 
-      client.makeProgress(
-        'b7c9023f-4b6e-4d07-9d74-a6914697fe9c',
-        'b3f05f45-5344-4616-909e-afacbec74910',
-        { type: 'single', status: ProgressStatus.COMPLETED }
-      )
-    }
-  )
+      client.makeProgress('b3f05f45-5344-4616-909e-afacbec74910', {
+        type: 'single',
+        status: ProgressStatus.COMPLETED,
+      })
+    },
+  })
 )
 
 let sceneLimitsTrigger = new Entity()
@@ -190,28 +178,24 @@ sceneLimitsTrigger.addComponent(
 engine.addEntity(sceneLimitsTrigger)
 sceneLimitsTrigger.addComponent(
   new utils.TriggerComponent(
-    new TriggerBoxShape(new Vector3(16 * 18.8, 50, 16 * 18.8), Vector3.Zero()),
-    null,
-    null,
-    null,
-    null,
-    null,
-    () => {
-      log('walking out')
-      if (!chaman.introduced || playerHoldingKey || playerWentIn) {
-        return
-      }
-      chaman.talk(GemsMission, 'stay')
+    new utils.TriggerBoxShape(new Vector3(16 * 18.8, 50, 16 * 18.8)),
+    {
+      onCameraEnter: () => {
+        log('walking out')
+        if (!chaman.introduced || playerHoldingKey || playerWentIn) {
+          return
+        }
+        chaman.talk(GemsMission, 'stay')
+      },
     }
   )
 )
 
 export function progressInQuest(step: string, multipleSteps?: boolean) {
   client.makeProgress(
-    'b7c9023f-4b6e-4d07-9d74-a6914697fe9c',
     step,
     multipleSteps
-      ? { type: 'count', amount: 1 }
+      ? { type: 'numeric', operation: 'increase', amount: 1 }
       : { type: 'single', status: ProgressStatus.COMPLETED }
   )
 }
