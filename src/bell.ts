@@ -52,7 +52,7 @@ export class Bell extends Entity {
           const value = !this.active
           this.toggle(this, value)
 
-          progressInQuest('a2085915-f276-4d08-a87d-956e19055444')
+          progressInQuest('5656b183-a53a-4f95-a1ef-735c382178ef')
         },
         {
           button: ActionButton.POINTER,

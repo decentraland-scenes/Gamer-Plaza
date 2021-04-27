@@ -1,4 +1,4 @@
-import { RemoteQuestTracker } from 'dcl-ecs-quests'
+import { RemoteQuestTracker } from '@dcl/ecs-quests'
 import { ProgressStatus } from 'dcl-quests-client/quests-client-amd'
 
 import { Bell } from './bell'
@@ -49,42 +49,42 @@ export let client: RemoteQuestTracker
 let introDone: boolean = false
 let potionDone: boolean = false
 let bellDone: boolean = false
-let chamanDone: boolean = false
+let templeDone: boolean = false
 
 export async function handleQuests() {
-  client = await new RemoteQuestTracker('b7c9023f-4b6e-4d07-9d74-a6914697fe9c')
+  client = await new RemoteQuestTracker('80817d29-677c-4b1d-96de-3fedf462be4d')
   let q = await client.getCurrentStatePromise()
 
   log('QUEST ', q)
   if (q.progressStatus != ProgressStatus.COMPLETED) {
     for (let task of q.tasks) {
       if (
-        task.id == '7bd3d240-13fa-4559-b4fe-f870a9afd5d6' &&
+        task.id == '82549f6d-3a2d-4053-96de-40269b188d3b' &&
         task.progressStatus == ProgressStatus.COMPLETED
       ) {
         log('already spoke')
         introDone = true
       } else if (
-        task.id == 'bf851b43-f174-4b31-af73-b7b098c00263' &&
+        task.id == '6cae123e-529b-4c6c-ae5c-0a1fafee95d9' &&
         task.progressStatus == ProgressStatus.COMPLETED
       ) {
         log('already did chaman')
-        chamanDone = true
+        templeDone = true
       } else if (
-        task.id == 'eae19e16-cda8-4aca-8366-91d09ac707b3' &&
+        task.id == 'aafc3022-5469-4616-8e4a-4ce2d273ac25' &&
         task.progressStatus == ProgressStatus.COMPLETED
       ) {
         potionDone = true
       } else if (
-        task.id == 'a2085915-f276-4d08-a87d-956e19055444' &&
+        task.id == '5656b183-a53a-4f95-a1ef-735c382178ef' &&
         task.progressStatus == ProgressStatus.COMPLETED
       ) {
         bellDone = true
       }
     }
-    if (q.ok && introDone) {
+    if (introDone) {
       //&& q.progressStatus != ProgressStatus.COMPLETED) {
-      if (!chamanDone) {
+      if (!templeDone) {
         chaman.getComponent(Transform).position.y = 4
         cauldron = new Cauldron({
           position: new Vector3(59, 4, 71),
@@ -161,7 +161,7 @@ doorTrigger.addComponent(
       arrow.hide()
       playerWentIn = true
 
-      client.makeProgress('b3f05f45-5344-4616-909e-afacbec74910', {
+      client.makeProgress('6cae123e-529b-4c6c-ae5c-0a1fafee95d9', {
         type: 'single',
         status: ProgressStatus.COMPLETED,
       })

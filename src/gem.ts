@@ -1,7 +1,7 @@
 import * as utils from '@dcl/ecs-scene-utils'
 import * as ui from '@dcl/ui-scene-utils'
 
-import { cauldron, chaman, arrow, progressInQuest } from './quest'
+import { cauldron, chaman, arrow, progressInQuest, client } from './quest'
 import { GemsMission } from './NPC/dialog'
 import { addVases, removeVases } from './vase'
 
@@ -50,6 +50,11 @@ export function startGemUI() {
     minutesCounter.set(6)
     timer.running = true
   }
+  client.makeProgress('c07a44ba-4aa7-47ae-a29a-82ecfb2129b7', {
+    type: 'numeric',
+    operation: 'set',
+    amount: 0,
+  })
 }
 
 export function findGem(vase: Entity) {
@@ -75,7 +80,7 @@ export function findGem(vase: Entity) {
     cauldron.ready = true
     arrow.move(cauldron)
   }
-  progressInQuest('168debbc-d113-4dfd-817b-00afaf2f28ff', true)
+  progressInQuest('c07a44ba-4aa7-47ae-a29a-82ecfb2129b7', true)
 }
 
 let undergronundDummy = new Entity()
@@ -149,4 +154,10 @@ export function resetGame() {
       minutesCounter.uiText.visible = false
     })
   )
+
+  client.makeProgress('c07a44ba-4aa7-47ae-a29a-82ecfb2129b7', {
+    type: 'numeric',
+    operation: 'set',
+    amount: 0,
+  })
 }

@@ -57,7 +57,7 @@ export let GemsMission: Dialog[] = [
     text: `And I know... that's 7 minutes and 6 seconds, but it's kind of my thing.`,
     isEndOfDialog: true,
     triggeredByNext: () => {
-      progressInQuest('bf851b43-f174-4b31-af73-b7b098c00263')
+      progressInQuest('0ab02600-787f-494c-ac1d-3793d236a61a')
 
       startGemUI()
     },

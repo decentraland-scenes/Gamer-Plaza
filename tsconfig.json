@@ -3,12 +3,12 @@
     "outFile": "./bin/game.js",
     "allowJs": true,
     "paths": {
-      "dcl-quests-client/quests-client-amd": [
-        "./node_modules/dcl-quests-client/quests-client-amd"
-      ],
-      "dcl-ecs-quests": [
-        "node_modules/dcl-ecs-quests/dist/dcl-ecs-quests.d.ts"
-      ],
+		"dcl-quests-client/quests-client-amd": [
+			"./node_modules/dcl-quests-client/quests-client-amd"
+		  ],
+		  "@dcl/ecs-quests": [
+			"node_modules/@dcl/ecs-quests/dist/@dcl/dcl-ecs-quests.d.ts"
+		  ],
       "@dcl/ecs-scene-utils": [
         "node_modules/@dcl/ecs-scene-utils/dist/index.d.ts"
       ],

@@ -144,7 +144,7 @@ export class Cauldron extends Entity {
       timerSeparaor.uiText.visible = false
       gemUIBck.image.visible = false
 
-      progressInQuest('20623a96-281a-4ac0-8aea-c5536d20b036')
+      progressInQuest('a0f00c60-66a2-482e-81ee-c831ff1f8e07')
     }
   }
 }

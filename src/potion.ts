@@ -27,7 +27,7 @@ export class Potion extends Entity {
         (e) => {
           this.drink()
 
-          progressInQuest('eae19e16-cda8-4aca-8366-91d09ac707b3')
+          progressInQuest('aafc3022-5469-4616-8e4a-4ce2d273ac25')
         },
         {
           button: ActionButton.POINTER,
