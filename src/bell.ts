@@ -1,4 +1,4 @@
-import { progressInQuest } from './quest'
+import { progressInQuest, taskIds } from './quest'
 
 export class Bell extends Entity {
   clip = new AudioClip('sounds/bell.mp3')
@@ -52,7 +52,7 @@ export class Bell extends Entity {
           const value = !this.active
           this.toggle(this, value)
 
-          progressInQuest('5656b183-a53a-4f95-a1ef-735c382178ef')
+          progressInQuest(taskIds.bell)
         },
         {
           button: ActionButton.POINTER,

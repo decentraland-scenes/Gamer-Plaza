@@ -8,8 +8,17 @@ import { PointerArrow } from './pointerArrow'
 import { Potion } from './potion'
 import * as utils from '@dcl/ecs-scene-utils'
 import { NPC } from '@dcl/npc-scene-utils'
+import { query } from '@dcl/quests-query'
 
-export let playerWentIn: boolean = false
+export enum taskIds {
+  intro = '82549f6d-3a2d-4053-96de-40269b188d3b',
+  gems = 'c07a44ba-4aa7-47ae-a29a-82ecfb2129b7',
+  placeGems = 'a0f00c60-66a2-482e-81ee-c831ff1f8e07',
+  temple = '6cae123e-529b-4c6c-ae5c-0a1fafee95d9',
+  outro = 'c8d6ad3e-1f14-4983-8e15-0eb4f8c83507',
+  potion = 'aafc3022-5469-4616-8e4a-4ce2d273ac25',
+  bell = '5656b183-a53a-4f95-a1ef-735c382178ef',
+}
 
 export let chaman = new NPC(
   {
@@ -46,45 +55,15 @@ export let arrow: PointerArrow
 
 export let client: RemoteQuestTracker
 
-let introDone: boolean = false
-let potionDone: boolean = false
-let bellDone: boolean = false
-let templeDone: boolean = false
-
 export async function handleQuests() {
   client = await new RemoteQuestTracker('80817d29-677c-4b1d-96de-3fedf462be4d')
   let q = await client.getCurrentStatePromise()
 
   log('QUEST ', q)
   if (q.progressStatus != ProgressStatus.COMPLETED) {
-    for (let task of q.tasks) {
-      if (
-        task.id == '82549f6d-3a2d-4053-96de-40269b188d3b' &&
-        task.progressStatus == ProgressStatus.COMPLETED
-      ) {
-        log('already spoke')
-        introDone = true
-      } else if (
-        task.id == '6cae123e-529b-4c6c-ae5c-0a1fafee95d9' &&
-        task.progressStatus == ProgressStatus.COMPLETED
-      ) {
-        log('already did chaman')
-        templeDone = true
-      } else if (
-        task.id == 'aafc3022-5469-4616-8e4a-4ce2d273ac25' &&
-        task.progressStatus == ProgressStatus.COMPLETED
-      ) {
-        potionDone = true
-      } else if (
-        task.id == '5656b183-a53a-4f95-a1ef-735c382178ef' &&
-        task.progressStatus == ProgressStatus.COMPLETED
-      ) {
-        bellDone = true
-      }
-    }
-    if (introDone) {
+    if (query(q).isTaskCompleted(taskIds.intro)) {
       //&& q.progressStatus != ProgressStatus.COMPLETED) {
-      if (!templeDone) {
+      if (!query(q).isTaskCompleted(taskIds.temple)) {
         chaman.getComponent(Transform).position.y = 4
         cauldron = new Cauldron({
           position: new Vector3(59, 4, 71),
@@ -97,13 +76,31 @@ export async function handleQuests() {
           },
           chaman
         )
+
+        if (
+          query(q).isTaskCompleted(taskIds.gems) &&
+          !query(q).isTaskCompleted(taskIds.placeGems)
+        ) {
+          cauldron.show()
+          cauldron.ready = true
+          arrow.move(cauldron)
+        }
+
+        if (query(q).isTaskCompleted(taskIds.placeGems)) {
+          arrow.move(
+            doorTrigger,
+            new Vector3(0, 45, 0),
+            new Vector3(1.7, 3, 1),
+            new Vector3(3, 3, 3)
+          )
+        }
       }
       let mainBell = new Bell({
         position: new Vector3(55, 4.2, 266),
         rotation: Quaternion.Euler(0, 45, 0),
         scale: new Vector3(3, 3, 3),
       })
-      if (!potionDone) {
+      if (!query(q).isTaskCompleted(taskIds.potion)) {
         let potion = new Potion({
           position: new Vector3(30, 4.3, 32.6),
           scale: new Vector3(2, 2, 2),
@@ -112,6 +109,8 @@ export async function handleQuests() {
     }
   }
 }
+
+export let playerWentIn: boolean = false
 
 /// Doors
 let hades_door_left = new Entity()
@@ -161,7 +160,7 @@ doorTrigger.addComponent(
       arrow.hide()
       playerWentIn = true
 
-      client.makeProgress('6cae123e-529b-4c6c-ae5c-0a1fafee95d9', {
+      client.makeProgress(taskIds.temple, {
         type: 'single',
         status: ProgressStatus.COMPLETED,
       })

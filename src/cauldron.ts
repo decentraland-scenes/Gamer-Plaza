@@ -7,7 +7,7 @@ import {
 } from './gem'
 import * as utils from '@dcl/ecs-scene-utils'
 import * as ui from '@dcl/ui-scene-utils'
-import { chaman, arrow, cauldron, progressInQuest } from './quest'
+import { chaman, arrow, cauldron, progressInQuest, taskIds } from './quest'
 import { GemsMission } from './NPC/dialog'
 
 import { doorTrigger } from './quest'
@@ -144,7 +144,7 @@ export class Cauldron extends Entity {
       timerSeparaor.uiText.visible = false
       gemUIBck.image.visible = false
 
-      progressInQuest('a0f00c60-66a2-482e-81ee-c831ff1f8e07')
+      progressInQuest(taskIds.placeGems)
     }
   }
 }

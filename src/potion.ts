@@ -1,5 +1,5 @@
 import * as ui from '@dcl/ui-scene-utils'
-import { progressInQuest } from './quest'
+import { progressInQuest, taskIds } from './quest'
 
 export class Potion extends Entity {
   clip = new AudioClip('sounds/drink.mp3')
@@ -27,7 +27,7 @@ export class Potion extends Entity {
         (e) => {
           this.drink()
 
-          progressInQuest('aafc3022-5469-4616-8e4a-4ce2d273ac25')
+          progressInQuest(taskIds.potion)
         },
         {
           button: ActionButton.POINTER,
