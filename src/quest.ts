@@ -1,5 +1,4 @@
 import { RemoteQuestTracker } from '@dcl/ecs-quests'
-import { ProgressStatus } from 'dcl-quests-client/quests-client-amd'
 
 import { Bell } from './bell'
 import { Cauldron, keyIcon, playerHoldingKey } from './cauldron'
@@ -9,6 +8,7 @@ import { Potion } from './potion'
 import * as utils from '@dcl/ecs-scene-utils'
 import { NPC } from '@dcl/npc-scene-utils'
 import { query } from '@dcl/quests-query'
+import { ProgressStatus } from 'dcl-quests-client/quests-client-amd'
 
 export enum taskIds {
   intro = '82549f6d-3a2d-4053-96de-40269b188d3b',
