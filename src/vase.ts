@@ -154,7 +154,7 @@ export function addVases() {
     new OnPointerDown(() => {
       demoVase.explode()
       arrow.hide()
-      chaman.talk(GemsMission, 19)
+      chaman.talk(GemsMission, 'nogem')
     })
   )
 

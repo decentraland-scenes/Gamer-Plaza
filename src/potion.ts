@@ -1,4 +1,3 @@
-import * as ui from '@dcl/ui-scene-utils'
 import { progressInQuest, taskIds } from './quest'
 
 export class Potion extends Entity {
@@ -12,7 +11,7 @@ export class Potion extends Entity {
 
     this.getComponent(GLTFShape).visible = false
 
-    ui.displayAnnouncement("That'll give me a hangover tomorrow. Bad idea.")
+    //ui.displayAnnouncement("That'll give me a hangover tomorrow. Bad idea.")
     // quest check
   }
   constructor(position: TransformConstructorArgs) {
@@ -27,11 +26,11 @@ export class Potion extends Entity {
         (e) => {
           this.drink()
 
-          progressInQuest(taskIds.potion)
+          progressInQuest(taskIds.calis)
         },
         {
           button: ActionButton.POINTER,
-          hoverText: 'Drink',
+          hoverText: 'Pick up',
         }
       )
     )

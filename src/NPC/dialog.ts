@@ -1,5 +1,5 @@
 import { Dialog } from '@dcl/npc-scene-utils'
-import { progressInQuest } from '../quest'
+import { progressInQuest, taskIds } from '../quest'
 import { startGemUI } from '../gem'
 
 export let GemsMission: Dialog[] = [
@@ -7,7 +7,10 @@ export let GemsMission: Dialog[] = [
     text: `Hello stranger ... brrr`,
   },
   {
-    text: `A myth says that there are hidden gems, kept inside the ancient vases you see around the plaza.`,
+    text: `I hear you're searching for a cails, one that is fit for holding the <color=red>Drink of the Gods</color>. I think I can help.`,
+  },
+  {
+    text: `A myth says that there are hidden gems, kept inside the <color=red>ancient vases</color> you see around the plaza.`,
     image: {
       path: 'images/vessel.png',
       height: 128,
@@ -28,7 +31,7 @@ export let GemsMission: Dialog[] = [
   },
 
   {
-    text: `I need about 10 of these gems. With that I can then melt them and forge a key, that we can use to open the Hades's Mausoleum brrr....`,
+    text: `I need about <color=red>10</color> of these gems. With that I can then melt them and forge a <color=red>key</color>, that we can use to open the Hades's Mausoleum brrr....`,
     image: {
       path: 'images/Key.png',
       height: 128,
@@ -51,13 +54,13 @@ export let GemsMission: Dialog[] = [
     text: `Ok...awesome! brr.... in the meantime i will prepare the cauldron to melt the gems brr...`,
   },
   {
-    text: `But hurry up...brrr i'm very impatient brrr... If you don't come back within 6 minutes and 66 seconds I will turn off the fire...brrr`,
+    text: `But hurry up...brrr i'm very impatient brrr... If you don't come back within <color=red>6 minutes and 66 seconds</color> I will turn off the fire...brrr`,
   },
   {
     text: `And I know... that's 7 minutes and 6 seconds, but it's kind of my thing.`,
     isEndOfDialog: true,
     triggeredByNext: () => {
-      progressInQuest('0ab02600-787f-494c-ac1d-3793d236a61a')
+      progressInQuest(taskIds.talkChaman)
 
       startGemUI()
     },
@@ -111,12 +114,12 @@ export let GemsMission: Dialog[] = [
   },
   {
     name: 'usekey',
-    text: `hmmm br... what are you waiting for? use the key to open the door!`,
+    text: `hmmm br... what are you waiting for? use the key to open the door behind me!`,
     isEndOfDialog: true,
   },
   {
     name: 'finished',
-    text: `hehe i knew you could do it, stranger... brr.... i'm going to look for more secrets in this plaza....`,
+    text: `hehe i knew you could do it, stranger... brr.... Take the Calis, it's yours now.`,
     isEndOfDialog: true,
   },
   {
