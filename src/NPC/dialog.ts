@@ -109,7 +109,7 @@ export let GemsMission: Dialog[] = [
   {
     //16
     name: 'getkey',
-    text: `Ha! That's a fine key, isn't it? brrrr... take it and open the door!`,
+    text: `Ha! That's a fine key, isn't it? brrrr... take it and open the door behind me!`,
     isEndOfDialog: true,
   },
   {

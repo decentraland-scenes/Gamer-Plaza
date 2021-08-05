@@ -28,7 +28,15 @@ export let gemsCounter = new ui.UICounter(
   48,
   true
 )
-export let secondsCounter = new ui.UICounter(66, -14, 49, Color4.Black())
+export let secondsCounter = new ui.UICounter(
+  66,
+  -14,
+  49,
+  Color4.Black(),
+  25,
+  true,
+  2
+)
 export let timerSeparaor = new ui.CornerLabel(':', -39, 49, Color4.Black())
 export let minutesCounter = new ui.UICounter(6, -64, 49, Color4.Black())
 gemsCounter.uiText.font = ui.SFHeavyFont
@@ -69,6 +77,7 @@ export function findGem(vase: Entity) {
   gem.setParent(vase)
   spawnAnim.stop()
   spawnAnim.play()
+  gem.getComponent(AudioSource).playOnce()
   gem.addComponentOrReplace(
     new utils.Delay(2500, () => {
       spawnAnim.stop()
@@ -116,6 +125,8 @@ gem.addComponent(new Animator())
 gem.getComponent(Animator).addClip(spawnAnim)
 gem.getComponent(Animator).addClip(idleAnim)
 spawnAnim.stop()
+
+gem.addComponent(new AudioSource(new AudioClip('sounds/achievment_04.mp3')))
 
 class CountdownSystem implements ISystem {
   running: boolean = true

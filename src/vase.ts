@@ -16,6 +16,10 @@ export class Vase extends Entity {
         rotation: Quaternion.Euler(0, randomRotation, 0),
       })
     )
+
+    this.addComponent(
+      new AudioSource(new AudioClip('sounds/woodexplode_01.mp3'))
+    )
     //this.getComponent(Transform).translate(new Vector3(0, -1.671, 0))
 
     engine.addEntity(this)
@@ -31,6 +35,7 @@ export class Vase extends Entity {
 
   explode() {
     this.removeComponent(GLTFShape)
+    this.getComponent(AudioSource).playOnce()
 
     v1.stop()
     v2.stop()
@@ -116,14 +121,20 @@ let vasePositions: { pos: Vector3; gem?: boolean }[] = [
     gem: true,
   },
   { pos: new Vector3(92.0013427734375, 4.090640068054199, 192.96806716918945) },
-  { pos: new Vector3(94.4620361328125, 4.1842498779296875, 196.5730209350586) },
+  {
+    pos: new Vector3(94.4620361328125, 4.1842498779296875, 196.5730209350586),
+    gem: true,
+  },
   { pos: new Vector3(98.81298828125, 4.091554641723633, 196.10015106201172) },
   {
     pos: new Vector3(75.6676025390625, 4.158233642578125, 282.89076232910156),
     gem: true,
   },
   { pos: new Vector3(69.835205078125, 3.7738494873046875, 284.38824462890625) },
-  { pos: new Vector3(71.2049560546875, 3.7738494873046875, 288.7763366699219) },
+  {
+    pos: new Vector3(71.2049560546875, 3.7738494873046875, 288.7763366699219),
+    gem: true,
+  },
   { pos: new Vector3(129.0906982421875, 4.074855327606201, 264.4117660522461) },
   {
     pos: new Vector3(131.0064697265625, 4.5320587158203125, 253.43987274169922),
@@ -133,7 +144,10 @@ let vasePositions: { pos: Vector3; gem?: boolean }[] = [
     gem: true,
   },
   { pos: new Vector3(91.014892578125, 10.725659370422363, 217.64810943603516) },
-  { pos: new Vector3(92.8450927734375, 10.733537673950195, 221.0294952392578) },
+  {
+    pos: new Vector3(92.8450927734375, 10.733537673950195, 221.0294952392578),
+    gem: true,
+  },
   { pos: new Vector3(84.44580078125, 19.75499725341797, 188.04117584228516) },
   {
     pos: new Vector3(89.1937255859375, 19.75499725341797, 189.32820510864258),
