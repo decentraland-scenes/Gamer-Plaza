@@ -110,7 +110,7 @@ export async function handleQuests() {
         }
 
         let calis = new Potion({
-          position: new Vector3(76, 6.5, 78),
+          position: new Vector3(76.5, 6.5, 78.5),
         })
       }
     }
@@ -158,7 +158,8 @@ engine.addEntity(doorTrigger)
 doorTrigger.addComponent(
   new utils.TriggerComponent(new utils.TriggerBoxShape(new Vector3(5, 5, 5)), {
     onCameraEnter: () => {
-      //if (!playerHoldingKey || playerWentIn) return
+      if (!playerHoldingKey || playerWentIn) return
+
       chaman.talk(GemsMission, 'finished')
 
       doorRA.play()

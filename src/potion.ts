@@ -16,7 +16,7 @@ export class Potion extends Entity {
   }
   constructor(position: TransformConstructorArgs) {
     super()
-    this.addComponent(new GLTFShape('models/game/Potion_03.glb'))
+    this.addComponent(new GLTFShape('models/game/calisEmpty.glb'))
 
     this.addComponent(new Transform(position))
 
@@ -29,7 +29,7 @@ export class Potion extends Entity {
           progressInQuest(taskIds.calis)
         },
         {
-          button: ActionButton.POINTER,
+          button: ActionButton.PRIMARY,
           hoverText: 'Pick up',
         }
       )

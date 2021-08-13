@@ -7,7 +7,7 @@ export let GemsMission: Dialog[] = [
     text: `Hello stranger ... brrr`,
   },
   {
-    text: `I hear you're searching for a cails, one that is fit for holding the <color=red>Drink of the Gods</color>. I think I can help.`,
+    text: `I hear you're searching for a chalice, one that is fit for holding the <color=red>Drink of the Gods</color>. I think I can help.`,
   },
   {
     text: `A myth says that there are hidden gems, kept inside the <color=red>ancient vases</color> you see around the plaza.`,
@@ -119,7 +119,7 @@ export let GemsMission: Dialog[] = [
   },
   {
     name: 'finished',
-    text: `hehe i knew you could do it, stranger... brr.... Take the Calis, it's yours now.`,
+    text: `hehe i knew you could do it, stranger... brr.... Take the Chalice, it's yours now.`,
     isEndOfDialog: true,
   },
   {

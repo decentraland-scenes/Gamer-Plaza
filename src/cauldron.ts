@@ -132,7 +132,9 @@ export class Cauldron extends Entity {
               chaman.talk(GemsMission, 'getkey')
               this.keySpawnAnimation.stop()
               this.keyIdleAnimation.play()
-              arrow.move(cauldron, Vector3.Zero(), new Vector3(0, 3, 0))
+              if (!playerHoldingKey) {
+                arrow.move(cauldron, Vector3.Zero(), new Vector3(0, 3, 0))
+              }
             })
           )
         })
