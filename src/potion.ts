@@ -26,7 +26,7 @@ export class Potion extends Entity {
         (e) => {
           this.drink()
 
-          progressInQuest(taskIds.calis)
+          progressInQuest(taskIds.caliz)
         },
         {
           button: ActionButton.PRIMARY,

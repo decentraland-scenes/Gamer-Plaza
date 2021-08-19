@@ -38,7 +38,7 @@ export class Cauldron extends Entity {
           this.addGems()
         },
         {
-          button: ActionButton.POINTER,
+          button: ActionButton.PRIMARY,
           hoverText: 'Drop Gems',
         }
       )
@@ -93,6 +93,7 @@ export class Cauldron extends Entity {
           )
         },
         {
+          button: ActionButton.PRIMARY,
           hoverText: 'Pick up',
         }
       )

@@ -20,6 +20,7 @@ export class Vase extends Entity {
     this.addComponent(
       new AudioSource(new AudioClip('sounds/woodexplode_01.mp3'))
     )
+    this.getComponent(AudioSource).volume = 0.2
     //this.getComponent(Transform).translate(new Vector3(0, -1.671, 0))
 
     engine.addEntity(this)
